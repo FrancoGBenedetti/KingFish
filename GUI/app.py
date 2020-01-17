@@ -14,7 +14,7 @@ from dash.exceptions import PreventUpdate
 from apps.cards import anomaly_tab
 from apps.validations_cards import validation_tab
 from apps.inicio import tab_inicio
-from apps.table_comparation import table_comparison_tab
+from apps.table_comparation_tab import table_comparison_tab
 from apps.value_boxes import value_boxes_tab
 
 from example_plots import *
@@ -82,7 +82,7 @@ sidebar = dac.Sidebar(
 	skin="light",
     color="primary",
 	brand_color="primary",
-    url="https://www.antarctic.ai/",
+    url="http://localhost:8050/",
     src="https://adminlte.io/themes/AdminLTE/dist/img/user2-160x160.jpg",
     elevation=3,
     opacity=0.8
@@ -106,18 +106,19 @@ body = dac.Body(
 # Controlbar
 controlbar = dac.Controlbar(
     [
-        html.Br(),
         html.P("Seleccionar clientes"),
+		html.Div([
         dcc.Dropdown(
             id='crossfilter-rut',
             options=[{'label': i, 'value': i} for i in available_indicators],
             value=available_indicators,
             multi=True
-        ),
+        )], className='container'),
 		html.Br(),
 		html.P("Seleccionar rango de Fechas"),
-	    dcc.DatePickerRange( id='date-picker-range',
-	        start_date = new_rnt_diaria.ds.min(), end_date=dt.now() )
+		html.Div([
+	    dcc.DatePickerRange(id='date-picker-range',
+	        start_date = new_rnt_diaria.ds.min(), end_date=dt.now())], className='container')
     ],
     title = "Filtros",
     skin = "light"
@@ -125,7 +126,7 @@ controlbar = dac.Controlbar(
 
 # Footer
 footer = dac.Footer(
-	html.A("Antarctic Analytics",
+	html.A("Powered by © Antarctic Analytics",
 		href = "https://www.antarctic.ai/",
 		target = "_blank",
 	),

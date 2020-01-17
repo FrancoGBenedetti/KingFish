@@ -27,7 +27,7 @@ validation_tab = dac.TabItem(id='validations_cards',
                     dac.BoxBody(
                         dcc.Graph(
                             figure=plot_bar(),
-                            config=dict(displayModeBar=False),
+                            config=dict(displayModeBar=True,scrollZoom=True),
                             style={'width': '37vw'}
                         )
                     )
