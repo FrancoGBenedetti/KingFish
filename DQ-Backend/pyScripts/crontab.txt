@@ -1,0 +1,5 @@
+chmod u+x ./anomalias.py
+*/10 * * * * ./anomalias.py
+
+chmod u+x ./calculo_validaciones.py
+*/10 * * * * ./calculo_validaciones.py 

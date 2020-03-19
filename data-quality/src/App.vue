@@ -1,11 +1,23 @@
 <template>
   <div id="app">
+    // BARRA DE NAVEGACION
     <div id="nav">
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
     </div>
-    <side-bar />
-    <router-view/>
+    //BARRA DE NAVEGACION
+    <div class="main-layout">
+
+      <div class="side-bar">
+        <side-bar />
+      </div>
+
+      <div class="content">
+        <router-view/>
+      </div>
+
+    </div>
+
   </div>
 </template>
 
@@ -21,5 +33,12 @@ export default {
 </script>
 
 <style lang="less">
+@primary-color: red;
+.main-layout{
+  display: flex;
+  .content{
+    background-color: @primary-color;
+  }
+}
 
 </style>
