@@ -95,7 +95,7 @@ def extract_db_data(db, table):
     frame = pd.read_sql(f"select * from {db}.{table}", dbConnection);
     pd.set_option('display.expand_frame_repr', False)
     dbConnection.close()
-    return frame.to_json()
+    return str(frame.to_dict(orient='records'))
 
 if __name__=='__main__':
     app.run(debug=True, port=5000)
