@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 from sqlalchemy import create_engine
 
-df = pd.read_csv('./todos_3.csv',sep=',')
+df = pd.read_csv('../../todos_3.csv',sep=',')
 df['FECHA'] = pd.to_datetime(df.FECHA)
 
 df1=df.copy()
@@ -18,5 +18,5 @@ def df2mysql(df,tableName,db):
               index=False)
     dbConnection.close()
 
-df2mysql(df,'rentaclientes','fuentedatos')  
+df2mysql(df,'rentaclientes','fuentedatos')
 df2mysql(df1,'rentaclientes2','fuentedatos')

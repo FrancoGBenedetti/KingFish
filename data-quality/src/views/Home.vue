@@ -1,49 +1,101 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-    <table>
+    <table class="table table-bordered">
+    <thead>
       <tr>
-        <th>Company</th>
-        <th>Contact</th>
-        <th>Country</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>User ID</th>
       </tr>
+    </thead>
+    <tbody>
+    <tr v-for="p in displayedPosts">
+      <td>{{p.columna}}</td>
+      <td>{{p.fila}}</td>
+      <td>{{p.mensaje}}</td>
+      <td>{{p.valor}}</td>
+    </tr>
+    </tbody>
+  </table>
+  <nav aria-label="Page navigation example">
+			<ul class="pagination">
+				<li class="page-item">
+					<button type="button" class="page-link" v-if="page != 1" @click="page--"> Previous </button>
+				</li>
+				<li class="page-item">
+					<button type="button" class="page-link" v-for="pageNumber in pages.slice(page-1, page+5)" @click="page = pageNumber"> {{pageNumber}} </button>
+				</li>
+				<li class="page-item">
+					<button type="button" @click="page++" v-if="page < pages.length" class="page-link"> Next </button>
+				</li>
+			</ul>
+		</nav>
 
-    <template v-for="(tabla, idx) in tablas" >
-     <tr  :key="idx">
-        <td>{{tabla.columnas}}</td>
-        <td>Maria Anders</td>
-        <td>Germany</td>
-      </tr>
-
-    </template>
-
-    </table>
     <Button text="Soy un botón"/>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
 import Button from '../components/Button.vue'
 import validaciones from '../services/validaciones.js'
 export default {
   name: 'Home',
   data:() =>({
-    tablas:[]
+    posts:[],
+		page: 1,
+		perPage: 9,
+		pages: [],
   }),
-  created(){
-    validaciones.getTabla()
-    .then(response=>{
-      console.log(response)
-      this.tablas = response
-    })
-    .catch(err => console.log(err))
-  },
-  components: {
-    HelloWorld,
-    Button
-  }
+  // created(){
+  //   validaciones.getTabla()
+  //   .then(response=>{
+  //     console.log(response)
+  //     this.filter(response, )
+  //   })
+  //   .catch(err => console.log(err))
+  // },
+
+  methods:{
+
+  		setPages () {
+  			let numberOfPages = Math.ceil(this.posts.length / this.perPage);
+  			for (let index = 1; index <= numberOfPages; index++) {
+  				this.pages.push(index);
+  			}
+  		},
+  		paginate (posts) {
+  			let page = this.page;
+  			let perPage = this.perPage;
+  			let from = (page * perPage) - perPage;
+  			let to = (page * perPage);
+  			return  posts.slice(from, to);
+  		}
+  	},
+  	computed: {
+  		displayedPosts () {
+        console.log(this.paginate(this.posts))
+  			return this.paginate(this.posts);
+  		}
+  	},
+  	watch: {
+  		posts () {
+  			this.setPages();
+  		}
+  	},
+  	created(){
+      validaciones.getTabla()
+      .then(response=>{
+        this.posts = JSON.stringify(response)
+        console.log('AQUI: ',this.posts)
+      })
+      .catch(err => console.log(err))
+  	},
+  	// filters: {
+  	// 	trimWords(value){
+  	// 		return value.split(" ").splice(0,20).join(" ") + '...';
+  	// 	}
+  	// }
+
 }
 </script>
