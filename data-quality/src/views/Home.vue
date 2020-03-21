@@ -36,10 +36,11 @@ export default {
   created(){
     validaciones.getTabla()
     .then(response=>{
-      this.tablas = response
       console.log(response)
+      this.tablas = response
     })
-    .catch(err => console.log(err))},
+    .catch(err => console.log(err))
+  },
   components: {
     HelloWorld,
     Button
