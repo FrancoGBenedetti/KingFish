@@ -46,14 +46,14 @@ def populate_table():
     return df
 
 #General
-# for i in range(1, 100):
-#     response = requests.get(f'https://casas.mitula.cl/searchRE/nivel1-Metropolitana/nivel2-Santiago/orden-0/q-santiago/pag-{i}?t_sec=1&t_or=0')
-#     soup = BeautifulSoup(response.text,'html.parser')
-#     df1 = populate_table()
-#     gral=gral.append(df1)
-# print('General: ')
-# print(len(gral))
-# gral.to_excel("general.xlsx")
+for i in range(1, 100):
+    response = requests.get(f'https://casas.mitula.cl/searchRE/nivel1-Metropolitana/nivel2-Santiago/orden-0/q-santiago/pag-{i}?t_sec=1&t_or=0')
+    soup = BeautifulSoup(response.text,'html.parser')
+    df1 = populate_table()
+    gral=gral.append(df1)
+print('General: ')
+print(len(gral))
+gral.to_excel("general.xlsx")
 
 #Arriendos
 for i in range(1, 100):
