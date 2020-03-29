@@ -4,10 +4,11 @@ import pandas as pd
 import numpy as np
 import re
 
-response = requests.get('https://casas.mitula.cl/searchRE/nivel1-Metropolitana/nivel2-Santiago/orden-0/q-santiago/pag-1')
-soup = BeautifulSoup(response.text,'html.parser')
-df = pd.DataFrame()
-weas=['<span>','<strong>','</strong>','</','>','$','.','span','baños','dormitorios','dormitorio',' m2','m²']
+#response = requests.get('https://casas.mitula.cl/searchRE/nivel1-Metropolitana/nivel2-Santiago/orden-0/q-santiago/pag-1')
+#soup = BeautifulSoup(response.text,'html.parser')
+gral = pd.DataFrame()
+arriendos = pd.DataFrame()
+weas=['<span>','<strong>','</strong>','</','>','$','.',' ','span','baños','dormitorios','dormitorio',' m2','m²','baño']
 
 def sacar_weas(data,str_columna, weas):
 
@@ -44,10 +45,22 @@ def populate_table():
     df.precio=df.precio.astype(int)
     return df
 
+#General
+# for i in range(1, 100):
+#     response = requests.get(f'https://casas.mitula.cl/searchRE/nivel1-Metropolitana/nivel2-Santiago/orden-0/q-santiago/pag-{i}?t_sec=1&t_or=0')
+#     soup = BeautifulSoup(response.text,'html.parser')
+#     df1 = populate_table()
+#     gral=gral.append(df1)
+# print('General: ')
+# print(len(gral))
+# gral.to_excel("general.xlsx")
+
+#Arriendos
 for i in range(1, 100):
-    response = requests.get(f'https://casas.mitula.cl/searchRE/nivel1-Metropolitana/nivel2-Santiago/orden-0/q-santiago/pag-{i}')
+    response = requests.get(f'https://casas.mitula.cl/searchRE/orden-0/op-2/q-arriendo-santiago/pag-{i}?t_sec=1&t_or=0')
     soup = BeautifulSoup(response.text,'html.parser')
     df1 = populate_table()
-    df=df.append(df1)
-
-df.to_excel("propiedades.xlsx")
+    arriendos=arriendos.append(df1)
+print('Arriendos: ')
+print(len(arriendos))
+arriendos.to_excel("arriendos.xlsx")
