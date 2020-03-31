@@ -3,6 +3,7 @@ import requests
 import pandas as pd
 import numpy as np
 import re
+from datetime import date
 
 #response = requests.get('https://casas.mitula.cl/searchRE/nivel1-Metropolitana/nivel2-Santiago/orden-0/q-santiago/pag-1')
 #soup = BeautifulSoup(response.text,'html.parser')
@@ -43,24 +44,27 @@ def populate_table():
     for col in df.columns:
         df[col]=sacar_weas(df,col, weas)
     df.precio=df.precio.astype(int)
+    df['fecha_obtencion_datos'] = date.today().strftime("%d-%m-%Y")
     return df
 
 #General
-for i in range(1, 100):
+for i in range(1, 50):
     response = requests.get(f'https://casas.mitula.cl/searchRE/nivel1-Metropolitana/nivel2-Santiago/orden-0/q-santiago/pag-{i}?t_sec=1&t_or=0')
     soup = BeautifulSoup(response.text,'html.parser')
     df1 = populate_table()
     gral=gral.append(df1)
+    print('Pagina: '+i)
+    print('Prop x pagina: '+len(df1))
 print('General: ')
 print(len(gral))
-gral.to_excel("general.xlsx")
+#gral.to_excel("general.xlsx")
 
 #Arriendos
-for i in range(1, 100):
-    response = requests.get(f'https://casas.mitula.cl/searchRE/orden-0/op-2/q-arriendo-santiago/pag-{i}?t_sec=1&t_or=0')
-    soup = BeautifulSoup(response.text,'html.parser')
-    df1 = populate_table()
-    arriendos=arriendos.append(df1)
-print('Arriendos: ')
-print(len(arriendos))
-arriendos.to_excel("arriendos.xlsx")
+# for i in range(1, 100):
+#     response = requests.get(f'https://casas.mitula.cl/searchRE/orden-0/op-2/q-arriendo-santiago/pag-{i}?t_sec=1&t_or=0')
+#     soup = BeautifulSoup(response.text,'html.parser')
+#     df1 = populate_table()
+#     arriendos=arriendos.append(df1)
+# print('Arriendos: ')
+# print(len(arriendos))
+# arriendos.to_excel("arriendos.xlsx")
